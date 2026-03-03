@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokémon Team Generator</title>
+  </head>
+  <body>
+    <button id="generateBtn">Générer une équipe de 6 Pokémons</button>
+    <div id="team"></div>
+
+    <script type="module">
+      import("/dist/main.js")
+        .then(() => {
+          const btn = document.getElementById("generateBtn");
+          if (btn && window.generateTeam) {
+            btn.addEventListener("click", window.generateTeam);
+            console.log("Pokémons chargés avec succès (attrapez-les tous !)");
+          } else {
+            console.error("Erreur de chargement les nullos");
+          }
+        })
+        .catch((err) => {
+          console.error("Erreur lors du chargement:", err);
+        });
+    </script>
+  </body>
+</html>
