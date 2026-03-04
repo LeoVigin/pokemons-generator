@@ -4,25 +4,124 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokémon Team Generator</title>
+    <style>
+      .custom-select {
+        position: relative;
+      }
+      .select-trigger {
+        padding: 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        background: white;
+        max-width: 200px;
+      }
+      .select-dropdown {
+        display: none;
+        position: absolute;
+        background: white;
+        border: 1px solid #ccc;
+        max-height: 300px;
+        overflow-y: auto;
+        width: 100%;
+        max-width: 200px;
+        z-index: 1000;
+      }
+      .select-dropdown label {
+        display: block;
+        padding: 8px;
+        cursor: pointer;
+      }
+      .select-dropdown label:hover {
+        background: #f0f0f0;
+      }
+    </style>
   </head>
   <body>
-    <button id="generateBtn">Générer une équipe de 6 Pokémons</button>
+    <h1>Pokémon Team Generator</h1>
+    <section id="filters">
+      <div class="filter-group">
+        <h3>Jeu</h3>
+        <select id="gameFilter">
+          <option value="">Tous les jeux</option>
+          <option value="red">Red/Blue/Yellow</option>
+          <option value="firered">FireRed/LeafGreen</option>
+          <option value="gold">Gold/Silver/Crystal</option>
+          <option value="heartgold">HeartGold/SoulSilver</option>
+          <option value="ruby">Ruby/Sapphire/Emerald</option>
+          <option value="omegaa">Omega Ruby/Alpha Sapphire</option>
+          <option value="diamond">Diamond/Pearl/Platinum</option>
+          <option value="bdsp">Brilliant Diamond/Shining Pearl</option>
+          <option value="black">Black/White/Black 2/White 2</option>
+          <option value="xy">X/Y</option>
+          <option value="sun">Sun/Moon/Ultra Sun/Ultra Moon</option>
+          <option value="sword">Sword/Shield</option>
+          <option value="scarlet">Scarlet/Violet</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <h3>Génération</h3>
+        <div class="custom-select">
+          <div class="select-trigger" id="genTrigger">Sélectionnez...</div>
+          <div class="select-dropdown" id="genDropdown">
+            <label><input type="checkbox" value="1" /> Gen 1</label>
+            <label><input type="checkbox" value="2" /> Gen 2</label>
+            <label><input type="checkbox" value="3" /> Gen 3</label>
+            <label><input type="checkbox" value="4" /> Gen 4</label>
+            <label><input type="checkbox" value="5" /> Gen 5</label>
+            <label><input type="checkbox" value="6" /> Gen 6</label>
+            <label><input type="checkbox" value="7" /> Gen 7</label>
+            <label><input type="checkbox" value="8" /> Gen 8</label>
+            <label><input type="checkbox" value="9" /> Gen 9</label>
+          </div>
+        </div>
+      </div>
+      <div class="filter-group">
+        <h3>Type</h3>
+        <div class="custom-select">
+          <div class="select-trigger" id="typeTrigger">Sélectionnez...</div>
+          <div class="select-dropdown" id="typeDropdown">
+            <label><input type="checkbox" value="normal" /> Normal</label>
+            <label><input type="checkbox" value="fire" /> Feu</label>
+            <label><input type="checkbox" value="water" /> Eau</label>
+            <label><input type="checkbox" value="electric" /> Électrik</label>
+            <label><input type="checkbox" value="grass" /> Plante</label>
+            <label><input type="checkbox" value="ice" /> Glace</label>
+            <label><input type="checkbox" value="fighting" /> Combat</label>
+            <label><input type="checkbox" value="poison" /> Poison</label>
+            <label><input type="checkbox" value="ground" /> Sol</label>
+            <label><input type="checkbox" value="flying" /> Vol</label>
+            <label><input type="checkbox" value="psychic" /> Psy</label>
+            <label><input type="checkbox" value="bug" /> Insecte</label>
+            <label><input type="checkbox" value="rock" /> Roche</label>
+            <label><input type="checkbox" value="ghost" /> Spectre</label>
+            <label><input type="checkbox" value="dragon" /> Dragon</label>
+            <label><input type="checkbox" value="dark" /> Ténèbres</label>
+            <label><input type="checkbox" value="steel" /> Acier</label>
+            <label><input type="checkbox" value="fairy" /> Fée</label>
+          </div>
+        </div>
+      </div>
+      <div class="filter-group">
+        <h3>Stade d'évolution</h3>
+        <div class="custom-select">
+          <div class="select-trigger" id="evoTrigger">Sélectionnez...</div>
+          <div class="select-dropdown" id="evoDropdown">
+            <label><input type="checkbox" value="base" /> Base</label>
+            <label
+              ><input type="checkbox" value="middle" /> Intermédiaire</label
+            >
+            <label><input type="checkbox" value="final" /> Finale</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <button id="generateBtn">Générer une équipe de 6 Pokémon</button>
+
     <div id="team"></div>
 
     <script type="module">
-      import("/dist/main.js")
-        .then(() => {
-          const btn = document.getElementById("generateBtn");
-          if (btn && window.generateTeam) {
-            btn.addEventListener("click", window.generateTeam);
-            console.log("Pokémons chargés avec succès (attrapez-les tous !)");
-          } else {
-            console.error("Erreur de chargement les nullos");
-          }
-        })
-        .catch((err) => {
-          console.error("Erreur lors du chargement:", err);
-        });
+      import("/dist/main.js").then((m) => m.init?.());
     </script>
   </body>
 </html>

@@ -12,32 +12,35 @@ function getFiltersFromUI(): TeamFilters {
 
   let generations: number[] = [];
   if (game && GAMES[game]) {
-    // si y'a un jeu on prend ses generations
     const gameInfo = GAMES[game];
     if (gameInfo) {
       generations = gameInfo.generations;
     }
   } else {
-    // sinon on prend ce qui est coché
-    const checkboxes = document.querySelectorAll<HTMLInputElement>(
-      "#generationFilter input:checked",
+    const genCheckboxes = document.querySelectorAll<HTMLInputElement>(
+      "#genDropdown input:checked",
     );
-    for (let i = 0; i < checkboxes.length; i++) {
-      const cb = checkboxes[i];
+    for (let i = 0; i < genCheckboxes.length; i++) {
+      const cb = genCheckboxes[i];
       if (cb) {
         generations.push(parseInt(cb.value, 10));
       }
     }
   }
 
-  const typeSelect = document.getElementById("typeFilter") as HTMLSelectElement;
+  const typeCheckboxes = document.querySelectorAll<HTMLInputElement>(
+    "#typeDropdown input:checked",
+  );
   let types: string[] = [];
-  if (typeSelect && typeSelect.value) {
-    types = [typeSelect.value];
+  for (let i = 0; i < typeCheckboxes.length; i++) {
+    const cb = typeCheckboxes[i];
+    if (cb) {
+      types.push(cb.value);
+    }
   }
 
   const evoCheckboxes = document.querySelectorAll<HTMLInputElement>(
-    "#evolutionFilter input:checked",
+    "#evoDropdown input:checked",
   );
   let evolutionStages: EvolutionStage[] = [];
   for (let i = 0; i < evoCheckboxes.length; i++) {
@@ -50,7 +53,54 @@ function getFiltersFromUI(): TeamFilters {
   return { game, generations, types, evolutionStages };
 }
 
-// pour gérer l'affichage des generations selon le jeu
+
+function setupCustomDropdowns(): void {
+  const dropdowns = [
+    { trigger: "genTrigger", dropdown: "genDropdown" },
+    { trigger: "typeTrigger", dropdown: "typeDropdown" },
+    { trigger: "evoTrigger", dropdown: "evoDropdown" },
+  ];
+
+  dropdowns.forEach(({ trigger, dropdown }) => {
+    const triggerEl = document.getElementById(trigger);
+    const dropdownEl = document.getElementById(dropdown) as HTMLElement;
+    if (!triggerEl || !dropdownEl) return;
+
+    dropdownEl.style.display = "none";
+
+    triggerEl.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = dropdownEl.style.display === "block";
+      document.querySelectorAll(".select-dropdown").forEach((dd) => {
+        (dd as HTMLElement).style.display = "none";
+      });
+      dropdownEl.style.display = isOpen ? "none" : "block";
+    });
+
+    dropdownEl.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+
+    const checkboxes = dropdownEl.querySelectorAll("input[type='checkbox']");
+    checkboxes.forEach((cb) => {
+      cb.addEventListener("change", () => {
+        const checked = dropdownEl.querySelectorAll("input:checked");
+        triggerEl.textContent =
+          checked.length > 0
+            ? `${checked.length} sélectionné(s)`
+            : "Sélectionnez...";
+      });
+    });
+  });
+
+  document.addEventListener("click", () => {
+    document.querySelectorAll(".select-dropdown").forEach((dd) => {
+      (dd as HTMLElement).style.display = "none";
+    });
+  });
+}
+
+// Gère l'affichage des generations selon le jeu
 function setupGameFilter(): void {
   const gameSelect = document.getElementById(
     "gameFilter",
@@ -59,31 +109,30 @@ function setupGameFilter(): void {
 
   const updateGenVisibility = () => {
     const game = gameSelect.value;
-    const genCheckboxes = document.querySelectorAll<HTMLInputElement>(
-      "#generationFilter input",
-    );
+    const genDropdown = document.getElementById("genDropdown");
+    if (!genDropdown) return;
 
-    for (let i = 0; i < genCheckboxes.length; i++) {
-      const cb = genCheckboxes[i];
-      if (!cb) continue;
+    const labels = genDropdown.querySelectorAll("label");
+    labels.forEach((label) => {
+      const input = label.querySelector("input") as HTMLInputElement;
+      if (!input) return;
 
-      const gen = parseInt(cb.value, 10);
+      const gen = parseInt(input.value, 10);
       let available = true;
 
       if (game && GAMES[game]) {
         available = GAMES[game].generations.includes(gen);
       }
 
-      const label = cb.closest("label");
-      if (label) {
-        if (available) {
-          label.style.display = "";
-        } else {
-          label.style.display = "none";
-          cb.checked = false;
-        }
+      if (available) {
+        label.style.display = "";
+        input.disabled = false;
+      } else {
+        label.style.display = "none";
+        input.disabled = true;
+        input.checked = false;
       }
-    }
+    });
   };
 
   updateGenVisibility();
@@ -138,10 +187,12 @@ export async function generateTeam(): Promise<void> {
   }
 }
 
+// Initialise l'application
 export function init(): void {
   const btn = document.getElementById("generateBtn");
   if (btn) {
     btn.addEventListener("click", () => generateTeam());
   }
+  setupCustomDropdowns();
   setupGameFilter();
 }
