@@ -1,0 +1,33 @@
+$red: #cf4242;
+$gray: #363636;
+$medium-gray: #6f6f6f;
+$light-gray: #d9d9d9;
+$white: #ffff;
+$blue: #37a3cd;
+$darker-blue: #2e87aa;
+$green: #49cd4e;
+
+@mixin header-content {
+    padding: 1rem;
+    background-color: $light-gray;
+    border-radius: 100px;
+    font-size: 25px;
+}
+
+@mixin center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin filter {
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 100px;
+}
+
+@mixin filter-asset {
+    padding: 1.5rem;
+    border-radius: 100px;
+    content: "";
+}
