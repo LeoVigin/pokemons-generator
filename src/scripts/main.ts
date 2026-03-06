@@ -173,7 +173,7 @@ export async function generateTeam(): Promise<void> {
       }
 
       html += `
-      <div>
+      <li>
         <img src="${img}" alt="${p.name}">
         <h3>${p.name}</h3>
         <div>${typesHtml}</div>

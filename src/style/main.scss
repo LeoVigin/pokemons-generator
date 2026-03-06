@@ -100,7 +100,7 @@
 		.main-section-content {
 			border: solid 1px $gray;
 			background-color: $white;
-			width: 80%;
+			width: 70%;
 			height: 100%;
 			border-radius: 70px;
 			.main-section-list {
@@ -109,6 +109,7 @@
 				list-style: none;
 				justify-items: center;
 				margin: 1rem;
+				grid-row-gap: 5rem;
 			}
 		}
 	}
