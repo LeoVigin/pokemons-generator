@@ -1,5 +1,5 @@
-import { fetchPokemon } from "./pokeapi.js";
-import type { Pokemon } from "./pokeapi.js";
+import { fetchPokemon } from "./pokeapi";
+import type { Pokemon } from "./pokeapi";
 
 export async function fetchPokemonTeam(count = 6): Promise<Pokemon[]> {
   let response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1025");
