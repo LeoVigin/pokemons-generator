@@ -1,11 +1,11 @@
+import { fetchPokemon } from "./pokeapi";
+import type { Pokemon } from "./pokeapi";
 import {
-  fetchPokemon,
   fetchPokemonSpecies,
   fetchEvolutionChain,
   fetchPokemonNamesByType,
   getEvolutionStage,
 } from "./pokeapi.js";
-import type { Pokemon } from "./pokeapi.js";
 import {
   getIdRangesFromFilters,
   isInIdRanges,
@@ -24,7 +24,23 @@ function idFromUrl(url: string): number {
   return parseInt(parts[parts.length - 1]!, 10);
 }
 
-export async function fetchPokemonTeam(
+export async function fetchPokemonTeam(count = 6): Promise<Pokemon[]> {
+  let response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1025");
+  const data = await response.json();
+
+  let allPokemon = data.results;
+  let randomPokemon = allPokemon
+    .sort(() => 0.5 - Math.random())
+    .slice(0, count);
+
+  const team = await Promise.all(
+    randomPokemon.map((p: { name: string }) => fetchPokemon(p.name)),
+  );
+
+  return team;
+}
+
+export async function fetchPokemonTeamFiltered(
   count = 6,
   filters: TeamFilters = getDefaultFilters(),
 ): Promise<Pokemon[]> {

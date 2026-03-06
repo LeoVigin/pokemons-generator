@@ -53,7 +53,6 @@ function getFiltersFromUI(): TeamFilters {
   return { game, generations, types, evolutionStages };
 }
 
-
 function setupCustomDropdowns(): void {
   const dropdowns = [
     { trigger: "genTrigger", dropdown: "genDropdown" },
@@ -148,7 +147,7 @@ export async function generateTeam(): Promise<void> {
 
   try {
     const filters = getFiltersFromUI();
-    const team = await fetchPokemonTeam(6, filters);
+    const team = await fetchPokemonTeam(6);
 
     if (team.length === 0) {
       teamDiv.innerHTML = "<p>Aucun Pokémon ne correspond à ces filtres.</p>";
