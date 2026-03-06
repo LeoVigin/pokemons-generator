@@ -7,6 +7,12 @@ $blue: #37a3cd;
 $darker-blue: #2e87aa;
 $green: #49cd4e;
 
+@mixin down($from) {
+  @media (width < $from) {
+    @content;
+  }
+}
+
 @mixin header-content {
     padding: 1rem;
     background-color: $light-gray;
