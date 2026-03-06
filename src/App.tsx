@@ -1,11 +1,8 @@
-"use client";
-
 import { useState } from "react";
 import { fetchPokemonTeam } from "../lib/team";
 import type { Pokemon } from "../lib/pokeapi";
-import styles from "./page.module.css";
 
-export default function Home() {
+export default function App() {
   const [team, setTeam] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,22 +24,18 @@ export default function Home() {
   };
 
   return (
-    <main className={styles.main}>
+    <main>
       <h1>Pokémon Team Generator</h1>
-      <button
-        onClick={handleGenerateTeam}
-        disabled={loading}
-        className={styles.button}
-      >
+      <button onClick={handleGenerateTeam} disabled={loading}>
         {loading ? "Chargement..." : "Générer une équipe de 6 Pokémons"}
       </button>
 
-      {error && <p className={styles.error}>{error}</p>}
+      {error && <p>{error}</p>}
 
       {team.length > 0 && (
-        <div className={styles.team}>
+        <div>
           {team.map((pokemon, index) => (
-            <div key={pokemon.id} className={styles.pokemonCard}>
+            <div key={pokemon.id}>
               <h2>#{index + 1}</h2>
               <img
                 src={
