@@ -1,4 +1,4 @@
-@import 'mixin.scss';
+@import '/src/style/mixin';
 
 * {
 	box-sizing: border-box;
@@ -51,6 +51,7 @@
 				}
 			}
 			.sidenav-filter {
+				position: relative;
 				@include center;
 				@include filter;
 				background-color: $blue;
@@ -59,6 +60,30 @@
 					margin-left: 3rem;
 					font-size: 20px;
 					appearance: none;
+					padding: 10px;
+					border: 1px solid #ccc;
+					cursor: pointer;
+					background: white;
+					max-width: 200px;
+					.select-dropdown label {
+						display: block;
+						padding: 8px;
+						cursor: pointer;
+					}
+					.select-dropdown label:hover {
+						background: #f0f0f0;
+					}
+				}
+				.select-dropdown {
+					display: none;
+					position: absolute;
+					background: white;
+					border: 1px solid #ccc;
+					max-height: 300px;
+					overflow-y: auto;
+					width: 100%;
+					max-width: 200px;
+					z-index: 1000;
 				}
 				.sidenav-round {
 					@include filter-asset;
