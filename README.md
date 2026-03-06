@@ -22,5 +22,5 @@ npm run dev
 
 ## Authors
 @EvaBouala <br>
-@Julien7 <br>
+@JulienC7 <br>
 @LeoVigin <br>
