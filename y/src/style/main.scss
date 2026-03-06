@@ -1,0 +1,95 @@
+@import 'mixin.scss';
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+.header {
+	background-color: $red;
+	width: 100%;
+	padding: 1rem;
+	.header-list {
+		display: flex;
+		justify-content: space-between;
+		list-style: none;
+	}
+	.header-element1 {
+		@include header-content;
+		width: 50%;
+	}
+	.header-element2 {
+		@include header-content;
+	}
+}
+.main {
+	min-height: 82svh;
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	background-color: $gray;
+	.main-sidenav {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		margin-left: -3rem;
+		.main-list {
+			margin: 0.5rem;
+			gap: 1rem;
+			display: flex;
+			flex-direction: column;
+			.sidenav-title-filter {
+				@include center;
+				@include filter;
+				background-color: $medium-gray;
+				.sidenav-title {
+					margin-left: 3rem;
+					font-size: 25px;
+				}
+				.sidenav-title-round {
+					@include filter-asset;
+					background-color: $green;
+				}
+			}
+			.sidenav-filter {
+				@include center;
+				@include filter;
+				background-color: $blue;
+				width: 90%;
+				.sidenav-text {
+					margin-left: 3rem;
+					font-size: 20px;
+					appearance: none;
+				}
+				.sidenav-round {
+					@include filter-asset;
+					background-color: $darker-blue;
+				}
+			}
+		}
+	}
+	.main-section {
+		@include center;
+		padding: 2rem;
+		margin-right: 2rem;
+		justify-content: flex-end;
+		.main-section-content {
+			border: solid 1px $gray;
+			background-color: $white;
+			width: 80%;
+			height: 100%;
+			border-radius: 70px;
+			.main-section-list {
+				display: grid;
+				grid-template-columns: 1fr 1fr 1fr;
+				list-style: none;
+				justify-items: center;
+				margin: 1rem;
+			}
+		}
+	}
+}
+.footer {
+	background-color: $red;
+	height: 2.4rem;
+	content: '';
+}
