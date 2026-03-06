@@ -1,5 +1,5 @@
-import { fetchPokemon } from "./pokeapi";
-import type { Pokemon } from "./pokeapi";
+import { fetchPokemon } from "./pokeapi.js";
+import type { Pokemon } from "./pokeapi.js";
 import {
   fetchPokemonSpecies,
   fetchEvolutionChain,

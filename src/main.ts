@@ -1,4 +1,4 @@
-import { fetchPokemonTeam } from "./team.js";
+import { fetchPokemonTeamFiltered } from "./team.js";
 import { TYPE_FR, GAMES } from "./filters.js";
 import type { TeamFilters, EvolutionStage } from "./filters.js";
 
@@ -147,7 +147,7 @@ export async function generateTeam(): Promise<void> {
 
   try {
     const filters = getFiltersFromUI();
-    const team = await fetchPokemonTeam(6);
+    const team = await fetchPokemonTeamFiltered(6, filters);
 
     if (team.length === 0) {
       teamDiv.innerHTML = "<p>Aucun Pokémon ne correspond à ces filtres.</p>";
