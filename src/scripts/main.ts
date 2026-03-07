@@ -1,14 +1,43 @@
 import { fetchPokemonTeamFiltered } from "./team.js";
-import { TYPE_FR, GAMES } from "./filters.js";
+import { TYPE_LABELS, GAMES } from "./filters.js";
 import type { TeamFilters, EvolutionStage } from "./filters.js";
+
+function getSelectedGameValue(): string | null {
+  const selectedGameInput = document.querySelector<HTMLInputElement>(
+    "#gameDropdown input[name='gameFilter']:checked",
+  );
+  if (!selectedGameInput) return null;
+  return selectedGameInput.value || null;
+}
+
+function updateCustomTriggerLabel(
+  triggerEl: HTMLElement,
+  dropdownEl: HTMLElement,
+): void {
+  const checked = Array.from(
+    dropdownEl.querySelectorAll<HTMLInputElement>("input:checked"),
+  );
+
+  if (checked.length === 0) {
+    triggerEl.textContent = "Select...";
+    return;
+  }
+
+  const labels = checked
+    .map((input) => input.parentElement?.textContent?.trim() || "")
+    .filter((label) => label.length > 0);
+
+  if (labels.length <= 2) {
+    triggerEl.textContent = labels.join(", ");
+    return;
+  }
+
+  triggerEl.textContent = `${labels.slice(0, 2).join(", ")} +${labels.length - 2}`;
+}
 
 // Récupère les filtres sélectionnés depuis l'interface
 function getFiltersFromUI(): TeamFilters {
-  const gameSelect = document.getElementById("gameFilter") as HTMLSelectElement;
-  let game = null;
-  if (gameSelect) {
-    game = gameSelect.value || null;
-  }
+  const game = getSelectedGameValue();
 
   let generations: number[] = [];
   if (game && GAMES[game]) {
@@ -54,15 +83,26 @@ function getFiltersFromUI(): TeamFilters {
 }
 
 function setupCustomDropdowns(): void {
+  const closeAllDropdowns = () => {
+    document.querySelectorAll<HTMLElement>(".select-dropdown").forEach((dd) => {
+      dd.style.display = "none";
+      dd.closest(".sidenav-filter")?.classList.remove("open");
+    });
+  };
+
   const dropdowns = [
+    { trigger: "gameTrigger", dropdown: "gameDropdown", singleSelect: true },
     { trigger: "genTrigger", dropdown: "genDropdown" },
     { trigger: "typeTrigger", dropdown: "typeDropdown" },
     { trigger: "evoTrigger", dropdown: "evoDropdown" },
   ];
 
-  dropdowns.forEach(({ trigger, dropdown }) => {
+  dropdowns.forEach(({ trigger, dropdown, singleSelect }) => {
     const triggerEl = document.getElementById(trigger);
     const dropdownEl = document.getElementById(dropdown) as HTMLElement;
+    const filterContainer = triggerEl?.closest(".sidenav-filter") as
+      | HTMLElement
+      | null;
     if (!triggerEl || !dropdownEl) return;
 
     dropdownEl.style.display = "none";
@@ -70,44 +110,45 @@ function setupCustomDropdowns(): void {
     triggerEl.addEventListener("click", (e) => {
       e.stopPropagation();
       const isOpen = dropdownEl.style.display === "block";
-      document.querySelectorAll(".select-dropdown").forEach((dd) => {
-        (dd as HTMLElement).style.display = "none";
-      });
-      dropdownEl.style.display = isOpen ? "none" : "block";
+      closeAllDropdowns();
+      if (isOpen) return;
+
+      dropdownEl.style.display = "block";
+      filterContainer?.classList.add("open");
     });
 
     dropdownEl.addEventListener("click", (e) => {
       e.stopPropagation();
     });
 
-    const checkboxes = dropdownEl.querySelectorAll("input[type='checkbox']");
-    checkboxes.forEach((cb) => {
-      cb.addEventListener("change", () => {
-        const checked = dropdownEl.querySelectorAll("input:checked");
-        triggerEl.textContent =
-          checked.length > 0
-            ? `${checked.length} sélectionné(s)`
-            : "Sélectionnez...";
+    const inputs = dropdownEl.querySelectorAll<HTMLInputElement>(
+      "input[type='checkbox'], input[type='radio']",
+    );
+    inputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        updateCustomTriggerLabel(triggerEl, dropdownEl);
+
+        if (singleSelect) {
+          closeAllDropdowns();
+        }
       });
     });
+
+    updateCustomTriggerLabel(triggerEl, dropdownEl);
   });
 
   document.addEventListener("click", () => {
-    document.querySelectorAll(".select-dropdown").forEach((dd) => {
-      (dd as HTMLElement).style.display = "none";
-    });
+    closeAllDropdowns();
   });
 }
 
 // Gère l'affichage des generations selon le jeu
 function setupGameFilter(): void {
-  const gameSelect = document.getElementById(
-    "gameFilter",
-  ) as HTMLSelectElement | null;
-  if (!gameSelect) return;
+  const gameDropdown = document.getElementById("gameDropdown") as HTMLElement | null;
+  if (!gameDropdown) return;
 
   const updateGenVisibility = () => {
-    const game = gameSelect.value;
+    const game = getSelectedGameValue();
     const genDropdown = document.getElementById("genDropdown");
     if (!genDropdown) return;
 
@@ -132,10 +173,19 @@ function setupGameFilter(): void {
         input.checked = false;
       }
     });
+
+    const genTrigger = document.getElementById("genTrigger") as HTMLElement | null;
+    if (genTrigger) {
+      updateCustomTriggerLabel(genTrigger, genDropdown as HTMLElement);
+    }
   };
 
   updateGenVisibility();
-  gameSelect.addEventListener("change", updateGenVisibility);
+  gameDropdown
+    .querySelectorAll<HTMLInputElement>("input[name='gameFilter']")
+    .forEach((input) => {
+      input.addEventListener("change", updateGenVisibility);
+    });
 }
 
 // Génère et affiche une équipe de Pokémon
@@ -143,14 +193,14 @@ export async function generateTeam(): Promise<void> {
   const teamDiv = document.getElementById("team");
   if (!teamDiv) return;
 
-  teamDiv.innerHTML = "<p>Chargement de votre équipe…</p>";
+  teamDiv.innerHTML = "<p>Loading your team…</p>";
 
   try {
     const filters = getFiltersFromUI();
     const team = await fetchPokemonTeamFiltered(6, filters);
 
     if (team.length === 0) {
-      teamDiv.innerHTML = "<p>Aucun Pokémon ne correspond à ces filtres.</p>";
+      teamDiv.innerHTML = "<p>No Pokémon match these filters.</p>";
       return;
     }
 
@@ -167,8 +217,8 @@ export async function generateTeam(): Promise<void> {
         const typeInfo = p.types[j];
         if (typeInfo) {
           const typeName = typeInfo.type.name;
-          const typeFr = TYPE_FR[typeName] ? TYPE_FR[typeName] : typeName;
-          typesHtml += `<span>${typeFr}</span> `;
+          const typeLabel = TYPE_LABELS[typeName] ? TYPE_LABELS[typeName] : typeName;
+          typesHtml += `<span class="pokemon-type type-${typeName}">${typeLabel}</span>`;
         }
       }
 
@@ -176,13 +226,13 @@ export async function generateTeam(): Promise<void> {
       <li>
         <img src="${img}" alt="${p.name}">
         <h3>${p.name}</h3>
-        <div>${typesHtml}</div>
+        <div class="pokemon-types">${typesHtml}</div>
       </div>`;
     }
     teamDiv.innerHTML = html;
   } catch (error) {
     console.log(error);
-    teamDiv.innerHTML = `<p>Erreur : ${error}</p>`;
+    teamDiv.innerHTML = `<p>Error: ${error}</p>`;
   }
 }
 

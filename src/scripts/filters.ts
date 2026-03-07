@@ -51,25 +51,25 @@ export const GENERATIONS: Record<number, GenerationInfo> = {
   9: { start: 906, end: 1025, region: "Paldea" },
 };
 
-export const TYPE_FR: Record<string, string> = {
+export const TYPE_LABELS: Record<string, string> = {
   normal: "Normal",
-  fire: "Feu",
-  water: "Eau",
-  electric: "Électrik",
-  grass: "Plante",
-  ice: "Glace",
-  fighting: "Combat",
+  fire: "Fire",
+  water: "Water",
+  electric: "Electric",
+  grass: "Grass",
+  ice: "Ice",
+  fighting: "Fighting",
   poison: "Poison",
-  ground: "Sol",
-  flying: "Vol",
-  psychic: "Psy",
-  bug: "Insecte",
-  rock: "Roche",
-  ghost: "Spectre",
+  ground: "Ground",
+  flying: "Flying",
+  psychic: "Psychic",
+  bug: "Bug",
+  rock: "Rock",
+  ghost: "Ghost",
   dragon: "Dragon",
-  dark: "Ténèbres",
-  steel: "Acier",
-  fairy: "Fée",
+  dark: "Dark",
+  steel: "Steel",
+  fairy: "Fairy",
 };
 
 export function getDefaultFilters(): TeamFilters {

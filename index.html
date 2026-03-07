@@ -24,32 +24,73 @@
 						<div class="sidenav-title-round"></div>
 					</li>
 
-					<li class="sidenav-filter">
-						<select
-							class="sidenav-text"
-							id="gameFilter"
-							aria-placeholder="Jeux">
-							<option value="">Tous les jeux</option>
-							<option value="red">Red/Blue/Yellow</option>
-							<option value="firered">FireRed/LeafGreen</option>
-							<option value="gold">Gold/Silver/Crystal</option>
-							<option value="heartgold">HeartGold/SoulSilver</option>
-							<option value="ruby">Ruby/Sapphire/Emerald</option>
-							<option value="omegaa">Omega Ruby/Alpha Sapphire</option>
-							<option value="diamond">Diamond/Pearl/Platinum</option>
-							<option value="bdsp">Brilliant Diamond/Shining Pearl</option>
-							<option value="black">Black/White/Black 2/White 2</option>
-							<option value="xy">X/Y</option>
-							<option value="sun">Sun/Moon/Ultra Sun/Ultra Moon</option>
-							<option value="sword">Sword/Shield</option>
-							<option value="scarlet">Scarlet/Violet</option>
-						</select>
+					<li class="sidenav-filter custom-select">
+						<div class="sidenav-text select-trigger" id="gameTrigger">
+							All games
+						</div>
+						<div class="select-dropdown" id="gameDropdown">
+							<label
+								><input type="radio" name="gameFilter" value="" checked /> All
+								games</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="red" />
+								Red/Blue/Yellow</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="firered" />
+								FireRed/LeafGreen</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="gold" />
+								Gold/Silver/Crystal</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="heartgold" />
+								HeartGold/SoulSilver</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="ruby" />
+								Ruby/Sapphire/Emerald</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="omegaa" />
+								Omega Ruby/Alpha Sapphire</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="diamond" />
+								Diamond/Pearl/Platinum</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="bdsp" />
+								Brilliant Diamond/Shining Pearl</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="black" />
+								Black/White/Black 2/White 2</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="xy" /> X/Y</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="sun" />
+								Sun/Moon/Ultra Sun/Ultra Moon</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="sword" />
+								Sword/Shield</label
+							>
+							<label
+								><input type="radio" name="gameFilter" value="scarlet" />
+								Scarlet/Violet</label
+							>
+						</div>
 						<div class="sidenav-round"></div>
 					</li>
 
 					<li class="sidenav-filter custom-select">
 						<div class="sidenav-text select-trigger" id="genTrigger">
-							Sélectionnez...
+							Select...
 						</div>
 						<div class="select-dropdown" id="genDropdown">
 							<label><input type="checkbox" value="1" /> Gen 1</label>
@@ -67,41 +108,39 @@
 
 					<li class="sidenav-filter custom-select">
 						<div class="sidenav-text select-trigger" id="typeTrigger">
-							Sélectionnez...
+							Select...
 						</div>
 						<div class="select-dropdown" id="typeDropdown">
 							<label><input type="checkbox" value="normal" /> Normal</label>
-							<label><input type="checkbox" value="fire" /> Feu</label>
-							<label><input type="checkbox" value="water" /> Eau</label>
-							<label><input type="checkbox" value="electric" /> Électrik</label>
-							<label><input type="checkbox" value="grass" /> Plante</label>
-							<label><input type="checkbox" value="ice" /> Glace</label>
-							<label><input type="checkbox" value="fighting" /> Combat</label>
+							<label><input type="checkbox" value="fire" /> Fire</label>
+							<label><input type="checkbox" value="water" /> Water</label>
+							<label><input type="checkbox" value="electric" /> Electric</label>
+							<label><input type="checkbox" value="grass" /> Grass</label>
+							<label><input type="checkbox" value="ice" /> Ice</label>
+							<label><input type="checkbox" value="fighting" /> Fighting</label>
 							<label><input type="checkbox" value="poison" /> Poison</label>
-							<label><input type="checkbox" value="ground" /> Sol</label>
-							<label><input type="checkbox" value="flying" /> Vol</label>
-							<label><input type="checkbox" value="psychic" /> Psy</label>
-							<label><input type="checkbox" value="bug" /> Insecte</label>
-							<label><input type="checkbox" value="rock" /> Roche</label>
-							<label><input type="checkbox" value="ghost" /> Spectre</label>
+							<label><input type="checkbox" value="ground" /> Ground</label>
+							<label><input type="checkbox" value="flying" /> Flying</label>
+							<label><input type="checkbox" value="psychic" /> Psychic</label>
+							<label><input type="checkbox" value="bug" /> Bug</label>
+							<label><input type="checkbox" value="rock" /> Rock</label>
+							<label><input type="checkbox" value="ghost" /> Ghost</label>
 							<label><input type="checkbox" value="dragon" /> Dragon</label>
-							<label><input type="checkbox" value="dark" /> Ténèbres</label>
-							<label><input type="checkbox" value="steel" /> Acier</label>
-							<label><input type="checkbox" value="fairy" /> Fée</label>
+							<label><input type="checkbox" value="dark" /> Dark</label>
+							<label><input type="checkbox" value="steel" /> Steel</label>
+							<label><input type="checkbox" value="fairy" /> Fairy</label>
 						</div>
 						<div class="sidenav-round"></div>
 					</li>
 
 					<li class="sidenav-filter custom-select">
 						<div class="sidenav-text select-trigger" id="evoTrigger">
-							Sélectionnez...
+							Select...
 						</div>
 						<div class="select-dropdown" id="evoDropdown">
 							<label><input type="checkbox" value="base" /> Base</label>
-							<label
-								><input type="checkbox" value="middle" /> Intermédiaire</label
-							>
-							<label><input type="checkbox" value="final" /> Finale</label>
+							<label><input type="checkbox" value="middle" /> Middle</label>
+							<label><input type="checkbox" value="final" /> Final</label>
 						</div>
 						<div class="sidenav-round"></div>
 					</li>
@@ -115,7 +154,9 @@
 			</section>
 		</main>
 
-		<footer class="footer"></footer>
+		<footer class="footer">
+			<p>Data from PokéAPI</p>
+		</footer>
 		<script type="module">
 			import { init } from '/src/scripts/main.js';
 			init();
