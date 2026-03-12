@@ -7,13 +7,13 @@ This is a Pokémon team generator using the PokeAPI.
 https://github.com/LeoVigin/pokemons-generator.git
 ```
 - Open the project in any local development server.
-- Build the project
-```
-npm run build
-```
 - Install the dependencies:
 ```
 npm install
+```
+- Build the project
+```
+npm run build
 ```
 - Start the project
 ```
